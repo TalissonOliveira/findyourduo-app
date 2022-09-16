@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { FlatList, Image, View } from 'react-native'
+import { FlatList, Image } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { Heading } from '../../components/Heading'
 import { GameCard, GameCardsProps } from '../../components/GameCard'
 
@@ -17,7 +18,7 @@ export function Home() {
   }, [])
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Image
         source={logoImg}
         style={styles.logo}
@@ -38,6 +39,6 @@ export function Home() {
         contentContainerStyle={styles.contentList}
         horizontal
       />
-    </View>
+    </SafeAreaView>
   )
 }
