@@ -17,9 +17,10 @@ export interface DuoCardProps {
 
 interface Props {
   data: DuoCardProps
+  onConnect: () => void
 }
 
-export function DuoCard({ data }: Props) {
+export function DuoCard({ data, onConnect }: Props) {
   const dayOrDays = data.weekDays.length > 1 ? 'dias' : 'dia'
 
   return (
@@ -44,6 +45,7 @@ export function DuoCard({ data }: Props) {
 
       <TouchableOpacity
         style={styles.button}
+        onPress={onConnect}
       >
         <GameController
           color={THEME.COLORS.TEXT}
