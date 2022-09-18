@@ -5,6 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { Entypo } from '@expo/vector-icons'
 import { GameParams } from '../../@types/navigation'
 import { Heading } from '../../components/Heading'
+import { DuoMatch } from '../../components/DuoMatch'
 import { Background } from '../../components/Background'
 import { DuoCard, DuoCardProps } from '../../components/DuoCard'
 import { THEME } from '../../theme'
@@ -15,6 +16,7 @@ import { styles } from './styles'
 
 export function Game() {
   const [duos, setDuos] = useState<DuoCardProps[]>([])
+  const [discordDuoSelected, setDiscordDuoSelected] = useState('')
   const navigation = useNavigation()
   const route = useRoute()
 
@@ -22,6 +24,12 @@ export function Game() {
 
   function handleGoBack() {
     navigation.goBack()
+  }
+
+  async function getDiscordUser(adId: string) {
+    fetch(`http://10.0.0.112:3333/ads/${adId}/discord`)
+      .then(response => response.json())
+      .then(data => setDiscordDuoSelected(data.discord))
   }
 
   useEffect(() => {
@@ -67,7 +75,7 @@ export function Game() {
           renderItem={({ item }) =>
             <DuoCard
               data={item}
-              onConnect={() => {}}
+              onConnect={() => getDiscordUser(item.id)}
             />
           }
           style={styles.containerList}
@@ -81,6 +89,12 @@ export function Game() {
               Não há anúncios publicados ainda.
             </Text>
           )}
+        />
+
+        <DuoMatch
+          visible={discordDuoSelected.length > 0}
+          discord={discordDuoSelected}
+          onClose={() => setDiscordDuoSelected('')}
         />
       </SafeAreaView>
     </Background>
